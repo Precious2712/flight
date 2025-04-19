@@ -52,9 +52,9 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="#" className="text-gray-400 hover:text-blue-400 transition-colors flex items-start gap-2">
+                                <Link to={'new-york'} className="text-gray-400 hover:text-blue-400 transition-colors flex items-start gap-2">
                                     <span className="mt-1 w-1 h-1 bg-gray-400 rounded-full"></span>
-                                    <span>Destinations</span>
+                                    <span>NewYork</span>
                                 </Link>
                             </li>
                             <li>

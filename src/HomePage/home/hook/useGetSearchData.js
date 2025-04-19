@@ -1,46 +1,8 @@
 // // hooks/useGetSearchData.js
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
-// export const useGetSearchData = () => {
-//     const [search, setSearch] = useState(null);
-//     const [isLoading, setIsLoading] = useState(false);
-//     const [errors, setErrors] = useState(false);
-
-//     const fetchData = async (filters = {}) => {
-//         setIsLoading(true);
-//         try {
-//             const response = await axios.get('http://localhost:4000/api/v1/getAllSearch', {
-//                 params: filters // 👈 important: send query parameters to backend
-//             });
-//             console.log("Fetched result:", response); // ✅
-//             setSearch(response);
-//         } catch (error) {
-//             console.log(error);
-//             setErrors(true);
-//         } finally {
-//             setIsLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchData();
-//     }, []);
-
-//     return {
-//         search,
-//         fetchData,
-//         isLoading,
-//         errors
-//     };
-// };
-
-
 
 export const useGetSearchData = () => {
     const [search, setSearch] = useState(null);
@@ -54,7 +16,6 @@ export const useGetSearchData = () => {
             setIsLoading(true);
             setErrors(null);
 
-            // Build query string
             const params = new URLSearchParams(filters).toString();
             const response = await axios.get(`http://localhost:4000/api/v1/getAllSearch?${params}`);
 
@@ -65,7 +26,6 @@ export const useGetSearchData = () => {
             
             setSearch(response.data);
         } catch (error) {
-            // console.error("Fetch error:", error);
             setErrors("Something went wrong");
         } finally {
             setIsLoading(false);
@@ -73,17 +33,12 @@ export const useGetSearchData = () => {
     };
 
     useEffect(() => {
-        fetchData(); // load all by default
+        fetchData(); 
     }, []);
 
     const currentUser = async () => {
+        const token = localStorage.getItem('token');
         try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                toast('Access denied. No token provided')
-                navigate('/login')
-            }
-    
             const user = await axios.get("http://localhost:4000/api/v1/currentuser", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -92,32 +47,31 @@ export const useGetSearchData = () => {
     
             setEndUser(user.data);
             console.log("user-data", user.data);
-            
+    
         } catch (error) {
-            console.log(error.response?.data || error.message);
-            if (error.message === 'Access denied. No token provided') {
-                toast('Access denied. No token provided')
-                navigate('/login')
-            }
-            if (error.message === 'Invalid token. Please login again') {
-                toast('Invalid token. Please login again')
-                navigate('/login')
-            }
-            if (error.message === 'Token expired. Please login again') {
-                toast('Token expired. Please login again')
-                navigate('/login')
+            console.log(error, 'message');
+            const errorMessage = error.response?.data?.message;
+            console.log('axios', errorMessage);
+    
+            if (error.response?.data?.message) {
+                localStorage.removeItem('token');
+                toast('Token expired. Please login again');
+                navigate('/login');
+            } else if (error.response?.status === 401) {
+                localStorage.removeItem('token');
+                toast('Session expired. Please login again');
+                navigate('/login');
             }
         }
     };
     
-
     useEffect(()=>{
         currentUser()
     },[])
 
     const logUserOut = () => {
-        // alert('logout')
         localStorage.removeItem('token');
+        toast(`${enduser?.data?.name} have successfully logout`)
         navigate('/login')
     }
 

@@ -21,8 +21,8 @@ import { testimonials } from "@/data/testimonials";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { SearchApi } from "@/context/useContext";
-import SpecialOffers from "@/components/specialOffer";
+// import { SearchApi } from "@/context/useContext";
+import SpecialOffers from "@/components/specialOffers";
 
 export default function Home() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,7 +82,7 @@ export default function Home() {
                     <div className="absolute inset-0 z-0">
                         <div className="absolute inset-0 bg-primary/80"></div>
                         <img
-                            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000"
+                            src="https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96"
                             alt="Airplane flying"
                             className="w-full h-full object-cover"
                             style={{ marginTop: 0, paddingTop: 0, position: 'absolute', top: 0, width: '100%', height: '100%', objectFit: 'cover' }}
@@ -91,7 +91,7 @@ export default function Home() {
 
                     <div className="container relative z-10">
                         <div class="relative inline-block px-6 py-2 font-semibold text-white cursor-pointer group overflow-hidden h-10 rounded-2xl ">
-                            <span class="relative z-10">Welcome {enduser?.data?.name}</span>
+                            <span class="relative z-10">Hi {enduser?.data?.name}</span>
                             <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-80 transition-all duration-300 group-hover:opacity-0 before:block before:absolute before:inset-0 before:bg-pink-500 before:scale-0 before:transition-transform before:duration-300 group-hover:before:scale-100 after:block after:absolute after:inset-0 after:bg-yellow-500 after:scale-0 after:transition-transform after:duration-300 group-hover:after:scale-100"></span>
                         </div>
 
@@ -204,9 +204,11 @@ export default function Home() {
                                 <h2 className="text-2xl text-white font-bold tracking-tight">Popular Destinations</h2>
                                 <p className="text-sm text-muted-foreground mt-2">Explore our most popular travel destinations</p>
                             </div>
-                            <Button variant="link" className="flex items-center text-primary mt-4 md:mt-0">
-                                View all destinations <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
+                            <Link to={'/destination-page'}>
+                                <Button variant="link" className="flex items-center text-blue-800 mt-4 md:mt-0 cursor-pointer ">
+                                    View all destinations <ArrowRight className="ml-2 h-4 w-4" />
+                                </Button>
+                            </Link>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -217,22 +219,11 @@ export default function Home() {
                                         <img
                                             src={destination.image}
                                             alt={destination.name}
-                                            className="w-full h-48 object-cover transition-transform group-hover:scale-105"
+                                            className="w-full h-52 object-cover transition-transform group-hover:scale-105"
                                         />
                                         <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white">
                                             <h3 className="font-semibold text-base">{destination.name}</h3>
                                             <p className="font-bold text-lg">${destination.price}</p>
-                                        </div>
-                                    </div>
-                                    {/* Content below image */}
-                                    <div className="p-4 bg-white">
-                                        <div className="flex justify-between items-center">
-                                            <p className="text-sm text-gray-600">{destination.country}</p>
-                                            <Link to={destination.path}>
-                                                <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1.5 rounded-md">
-                                                    View Details
-                                                </button>
-                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -241,72 +232,18 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* <section className="py-16 bg-gradient-to-r from-gray-800 to-gray-900 px-6">
-                    <div className="container">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-                            <div>
-                                <h2 className="text-3xl text-white font-bold tracking-tight">Special Offers</h2>
-                                <p className="text-muted-foreground mt-2">Limited time deals you don't want to miss</p>
-                            </div>
-                            <Link href="#" className="flex items-center text-primary mt-4 md:mt-0">
-                                View all offers <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </div>
-
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            {specialOffers.map((offer, index) => (
-                                <div key={index} className="group rounded-lg overflow-hidden hover:shadow-lg">
-                                    
-                                    <div className="relative">
-                                        <img
-                                            src={offer.image}
-                                            alt={offer.title}
-                                            className="w-full h-64 object-cover transition-transform group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent">
-                                            <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
-                                                {offer.discount}
-                                            </div>
-                                            <div className="absolute bottom-4 left-4">
-                                                <p className="text-sm text-white/80">Starting from</p>
-                                                <p className="text-2xl font-bold text-white">${offer.price}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="p-6 bg-white">
-                                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                                            <div>
-                                                <h3 className="text-xl font-bold">{offer.title}</h3>
-                                                <p className="text-gray-600">{offer.location}</p>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <CalendarIcon className="h-4 w-4 text-gray-500" />
-                                                <span className="text-sm text-gray-500">Expires: {offer.expires}</span>
-                                            </div>
-                                        </div>
-                                        <p className="mt-4 text-gray-600 line-clamp-2">{offer.description}</p>
-                                        <button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">
-                                            Book Now
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                {/* Special Offers Section */}
+                <div className="container mx-auto px-4 py-16">
+                    <div className="mb-8 flex items-center justify-between">
+                        <h2 className="text-3xl font-bold  text-white ">Special Offers</h2>
+                        <Link to={'/special-offer'}>
+                            <Button variant="link" className="flex items-center text-blue-800 mt-4 md:mt-0 cursor-pointer">
+                                View all offer <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </Link>
                     </div>
-                </section> */}
-
-                 {/* Special Offers Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-3xl font-bold">Special Offers</h2>
-          <Link href="/offers" className="flex items-center text-blue-600 hover:text-blue-800">
-            View all offers
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </div>
-        <SpecialOffers />
-      </div>
+                    <SpecialOffers />
+                </div>
 
                 <section className="py-16 bg-gradient-to-r from-gray-800 to-gray-900">
                     <div className="container">
@@ -348,7 +285,7 @@ export default function Home() {
                     <div className="absolute inset-0 z-0">
                         <div className="absolute inset-0 bg-primary/70"></div>
                         <img
-                            src="https://images.unsplash.com/photo-1542296332-2e4473faf563?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGFpcnBvcnQlMjB0ZXJtaW5hbHxlbnwwfHwwfHx8MA%3D%3D"
+                            src="https://images.unsplash.com/photo-1520437358207-323b43b50729"
                             alt="Airplane wing"
                             className="w-full h-full object-cover"
                         />

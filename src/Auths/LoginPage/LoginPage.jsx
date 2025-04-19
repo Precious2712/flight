@@ -31,18 +31,7 @@ export default function LoginPage() {
   
     } catch (error) {
       console.log(error);
-  
-      // const message = error.response?.data?.message;
-  
-      // if (message === 'Token expired' || message === 'TokenExpiredError') {
-      //   localStorage.removeItem('token');
-      //   navigate('/');
-      // }
-  
-      // if (message === 'Invalid token' || message === 'JsonWebTokenError') {
-      //   localStorage.removeItem('token');
-      //   navigate('/');
-      // }
+      toast(error.message)
     }
   };
 

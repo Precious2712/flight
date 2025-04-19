@@ -1,11 +1,10 @@
 import LoginPage from "@/Auths/LoginPage/LoginPage";
 import UserSignup from "@/Auths/userSignup/UserSignup";
-import Dubai from "@/country/Dubia";
-import AllCOuntryPage from "@/country/Dubia";
-import NewYork from "@/country/NewYork";
-import Paris from "@/country/Paris";
-import Tokyo from "@/country/Tokyo";
 import Home from "@/HomePage/home/Home";
+import AllPackagesDeals from "@/PackageDeals";
+import DestinationDetailPage from "@/countrys/places/DestinationDetailPage";
+import DestinationsPage from "@/countrys/popular-country/DestinationPage";
+import OfferDetails from "@/offer-details/OfferDetails";
 import { createBrowserRouter } from "react-router-dom";
 
 export const route = createBrowserRouter([
@@ -22,20 +21,21 @@ export const route = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: '/paris',
-        element: <Paris/>
+        path: 'destination-page',
+        element: <DestinationsPage />
     },
     {
-        path: '/tokyo',
-        element: <Tokyo/>
+        path: '/destinationId/:id',
+        element: <DestinationDetailPage />
     },
     {
-        path: 'new-york',
-        element: <NewYork/>
+        path: '/special-offer',
+        element: <AllPackagesDeals />
     },
     {
-        path: '/dubai',
-        element: <Dubai/>
+        path: '/offer-details/:id',
+        element: <OfferDetails />
     }
+
 ]);
 

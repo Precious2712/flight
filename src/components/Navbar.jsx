@@ -20,7 +20,7 @@ export default function Navbar() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-6">
-                    <Link to="#" className="text-sm font-medium hover:text-primary">Home</Link>
+                    <Link to={'/home'} className="text-sm font-medium hover:text-primary">Home</Link>
                     <Link to="#" className="text-sm font-medium hover:text-primary">Flights</Link>
                     <Link to="#" className="text-sm font-medium hover:text-primary">Dashboard</Link>
                     <Link to="#" className="text-sm font-medium hover:text-primary">Deals</Link>

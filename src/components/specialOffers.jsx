@@ -1,11 +1,8 @@
-// import Link from "next/link"
-
 import { Badge, Clock } from "lucide-react"
+
 import { Button } from "./ui/button"
 import { Link } from "react-router-dom"
 
-
-// Sample special offers data
 const specialOffers = [
   {
     id: 1,
@@ -81,11 +78,10 @@ export default function SpecialOffers() {
       {specialOffers.map((offer) => (
         <Link
           key={offer.id}
-          href={`/offers/${offer.id}`}
           className="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md"
         >
           <div className="relative">
-            <img src={offer.image || "/placeholder.svg"} alt={offer.title} className="h-48 w-full object-cover" />
+            <img src={offer.image || "/placeholder.svg"} alt={offer.title} className="h-48 w-full object-cover transition-transform group-hover:scale-105 " />
             <Badge className="absolute left-3 top-3 " variant="secondary">
               {offer.tag}
             </Badge>
@@ -106,7 +102,7 @@ export default function SpecialOffers() {
                 {offer.expiry}
               </div>
             </div>
-            <Button className="w-full group-hover:bg-blue-700">View Offer</Button>
+            {/* <Button className="w-full group-hover:bg-blue-700">View Offer</Button> */}
           </div>
         </Link>
       ))}

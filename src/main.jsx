@@ -9,9 +9,7 @@ import { Toaster } from 'sonner'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     {/* <App /> */}
-    {/* <Toaster> */}
       <RouterProvider router={route} />
-      <Toaster/>
-    {/* </Toaster> */}
+      <Toaster theme='bg-black'/>
   </StrictMode>,
 )

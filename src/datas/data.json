@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "skills": [
+            "JavaScript",
+            "React",
+            "Node.js"
+        ],
+        "profession": "Frontend Developer",
+        "salary": 85000
+    },
+    {
+        "id": 2,
+        "skills": [
+            "Python",
+            "Machine Learning",
+            "TensorFlow"
+        ],
+        "profession": "Data Scientist",
+        "salary": 95000
+    },
+    {
+        "id": 3,
+        "skills": [
+            "Java",
+            "Spring Boot",
+            "SQL"
+        ],
+        "profession": "Backend Developer",
+        "salary": 90000
+    },
+    {
+        "id": 4,
+        "skills": [
+            "Project Management",
+            "Agile",
+            "Scrum"
+        ],
+        "profession": "Project Manager",
+        "salary": 110000
+    },
+    {
+        "id": 5,
+        "skills": [
+            "UI/UX Design",
+            "Figma",
+            "Adobe XD"
+        ],
+        "profession": "UX Designer",
+        "salary": 80000
+    }
+]
