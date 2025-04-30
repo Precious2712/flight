@@ -26,17 +26,10 @@ export const signupFields = [
     },
   },
   {
-    name: "contact",
-    label: "Contact Number",
-    type: "tel",
-    placeholder: "+1234567890",
-    validation: {
-      required: "Contact number is required",
-      pattern: {
-        value: /^[+]?[\d\s-]+$/,
-        message: "Please enter a valid contact number",
-      },
-    },
+    name: "country",
+    label: "Country",
+    type: "text",
+    placeholder: "Enter your country",
   },
   {
     name: "password",

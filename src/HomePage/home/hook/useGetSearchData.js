@@ -5,36 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const useGetSearchData = () => {
-    const [search, setSearch] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState(null);
-    const [enduser, setEndUser] = useState(null)
+    const [search, setSearch] = useState([]);
+    const [enduser, setEndUser] = useState(null);
     const navigate = useNavigate()
-
-    const fetchData = async (filters = {}) => {
-        try {
-            setIsLoading(true);
-            setErrors(null);
-
-            const params = new URLSearchParams(filters).toString();
-            const response = await axios.get(`http://localhost:4000/api/v1/getAllSearch?${params}`);
-
-            if (response.data.length === 0) {
-                setErrors("No result found in database.");
-            }
-            console.log(response.data);
-            
-            setSearch(response.data);
-        } catch (error) {
-            setErrors("Something went wrong");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchData(); 
-    }, []);
 
     const currentUser = async () => {
         const token = localStorage.getItem('token');
@@ -44,43 +17,64 @@ export const useGetSearchData = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
+
             setEndUser(user.data);
-            console.log("user-data", user.data);
-    
+            // console.log("user-data", user.data);
         } catch (error) {
             console.log(error, 'message');
             const errorMessage = error.response?.data?.message;
             console.log('axios', errorMessage);
-    
+
             if (error.response?.data?.message) {
                 localStorage.removeItem('token');
-                toast('Token expired. Please login again');
+                toast.error('Token expired. Please login again');
                 navigate('/login');
             } else if (error.response?.status === 401) {
                 localStorage.removeItem('token');
-                toast('Session expired. Please login again');
+                toast.error('Session expired. Please login again');
                 navigate('/login');
             }
         }
     };
+
+    const searchFlight = async (filter) => {
+        try {
+            const token = localStorage.getItem('token');
+            const params = new URLSearchParams(filter).toString();
     
+            const filterSearch = await axios.get(`http://localhost:4000/api/v2/flights?${params}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const result = filterSearch?.data?.result
+            console.log('rtrtrtr', result);
+            setSearch(result);
+            return result
+        } catch (error) {
+            console.error("Error fetching flight data:", error);
+        }
+    };    
+
+    useEffect(() => {
+        currentUser();
+    }, []);
+
     useEffect(()=>{
-        currentUser()
-    },[])
+        searchFlight();
+    },[]);
 
     const logUserOut = () => {
         localStorage.removeItem('token');
-        toast(`${enduser?.data?.name} have successfully logout`)
+        toast.success(`${enduser?.data?.name} have successfully logout`)
         navigate('/login')
     }
 
     return {
-        search,
+        searchFlight,
         enduser,
-        fetchData,
+        search,
         logUserOut,
-        isLoading,
-        errors
+        search
     };
 };

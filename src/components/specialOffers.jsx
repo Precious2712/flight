@@ -1,6 +1,4 @@
 import { Badge, Clock } from "lucide-react"
-
-import { Button } from "./ui/button"
 import { Link } from "react-router-dom"
 
 const specialOffers = [
@@ -102,7 +100,6 @@ export default function SpecialOffers() {
                 {offer.expiry}
               </div>
             </div>
-            {/* <Button className="w-full group-hover:bg-blue-700">View Offer</Button> */}
           </div>
         </Link>
       ))}

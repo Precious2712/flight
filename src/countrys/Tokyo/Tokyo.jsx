@@ -38,7 +38,6 @@ export default function Tokyo() {
           Back to Home
         </Link>
         
-        {/* Hero Section */}
         <div className="relative h-[400px] rounded-xl overflow-hidden mb-8 shadow-lg">
           <img
             src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1336&q=80"
@@ -52,7 +51,6 @@ export default function Tokyo() {
           </div>
         </div>
 
-        {/* About Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 bg-gray-800/80 p-6 rounded-xl shadow-sm backdrop-blur-sm">
           <div>
             <h2 className="text-2xl font-bold mb-4 text-gray-800">About Tokyo</h2>
@@ -94,7 +92,6 @@ export default function Tokyo() {
           </div>
         </div>
 
-        {/* Attractions Section */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Must-Visit Attractions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -116,7 +113,6 @@ export default function Tokyo() {
           </div>
         </div>
 
-        {/* Travel Tips */}
         <div className="bg-gray-800/90 rounded-xl p-8 mb-12 border border-gray-700 backdrop-blur-sm">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Travel Tips</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
@@ -135,7 +131,6 @@ export default function Tokyo() {
           </div>
         </div>
 
-        {/* CTA Section */}
         <div className="text-center  rounded-xl bg-gray-800/90 p-8 border border-red-200">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800">Ready to Experience Tokyo?</h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">Book your flight now and discover the magic of Japan's capital</p>

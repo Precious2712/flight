@@ -1,18 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {
-    Calendar,
     MapPin,
-    Plane,
     Search,
     Users,
     ArrowRight,
-    CalendarIcon,
     PlaneIcon,
+    ArrowRightLeft,
 } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { destinations } from "@/data/destinations";
-import { specialOffers } from "@/data/offers";
 import Lottie from "lottie-react";
 import { useGetSearchData } from "./hook/useGetSearchData";
 import Navbar from "@/components/Navbar";
@@ -21,20 +18,17 @@ import { testimonials } from "@/data/testimonials";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-// import { SearchApi } from "@/context/useContext";
 import SpecialOffers from "@/components/specialOffers";
+import { toast } from "sonner";
+import FlightModal from "@/components/FlightModal";
 
 export default function Home() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [animationData, setAnimationData] = useState(null);
-    const { search, fetchData, errors, enduser } = useGetSearchData();
-    const [departure, setDeparture] = useState('');
-    const [arrival, setArrival] = useState('');
-    const [date, setDate] = useState('');
-    const [returnDate, setReturnDate] = useState('');
-    const [passenger, setPassenger] = useState('');
-    const [fields, setFields] = useState(null);
-    // const {product} = useContext(SearchApi);
+    const { enduser, searchFlight, search } = useGetSearchData();
+    const [departureAirport, setDepartureAirport] = useState('');
+    const [destinationAirport, setDestinationAirport] = useState('');
+    const [passenger, setPassenger] = useState(1);
+    const [tripType, setTripType] = useState('one-way');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const loadAnimation = async () => {
@@ -52,28 +46,28 @@ export default function Home() {
         loadAnimation();
     }, []);
 
-    const handleCheck = () => {
-        const filters = {
-            departure,
-            arrival,
-            date,
-            returnDate,
+    const handleCheck = async () => {
+        const filter = {
+            departureAirport,
+            destinationAirport,
+            tripType,
             passenger
         };
-
-        const allEmpty = Object.values(filters).every((value) => !value);
-        if (allEmpty) {
-            alert("Please enter at least one search field.");
-            return;
+        
+        console.log('filter', filter);
+        const api = await searchFlight(filter);
+        
+        if (api) {
+            toast.success('Success! ✅ search result found in database');
+            setIsDialogOpen(true);
+            return
         }
-
-        // console.log("Sending filters:", filters);
-        fetchData(filters);
-        setFields(filters)
-        setIsDialogOpen(true)
+        if (!api) {
+            toast.error('No record found');
+            return
+        }
     };
-
-
+ 
     return (
         <div className="flex min-h-screen flex-col bg-gradient-to-r from-gray-800 to-gray-900">
             <Navbar />
@@ -127,20 +121,20 @@ export default function Home() {
                                             <div className="relative">
                                                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                 <Input
-                                                    value={departure}
-                                                    onChange={(e) => setDeparture(e.target.value)}
+                                                    value={departureAirport}
+                                                    onChange={(e) => setDepartureAirport(e.target.value)}
                                                     placeholder="City or Airport"
                                                     className="pl-9"
                                                 />
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-white">Arrival</label>
+                                            <label className="text-sm font-medium text-white">Destination</label>
                                             <div className="relative">
                                                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                 <Input
-                                                    value={arrival}
-                                                    onChange={(e) => setArrival(e.target.value)}
+                                                    value={destinationAirport}
+                                                    onChange={(e) => setDestinationAirport(e.target.value)}
                                                     placeholder="City or Airport"
                                                     className="pl-9"
                                                 />
@@ -150,31 +144,21 @@ export default function Home() {
 
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-white">Date</label>
+                                            <label className="text-sm font-medium text-white">Trip Type</label>
                                             <div className="relative">
-                                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                <Input
-                                                    value={date}
-                                                    onChange={(e) => setDate(e.target.value)}
-                                                    type="date"
-                                                    className="pl-9"
-                                                />
+                                                <ArrowRightLeft className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                <select
+                                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-9 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    value={tripType} 
+                                                    onChange={(e) => setTripType(e.target.value)}
+                                                >
+                                                    <option value="one-way">one Way</option>
+                                                    <option value="round-trip">round Trip</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-white">Return Date</label>
-                                            <div className="relative">
-                                                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                <Input
-                                                    value={returnDate}
-                                                    onChange={(e) => setReturnDate(e.target.value)}
-                                                    type="date"
-                                                    className="pl-9"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-medium text-white">Travelers</label>
+                                            <label className="text-sm font-medium text-white">Passengers</label>
                                             <div className="relative">
                                                 <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                 <Input
@@ -188,9 +172,13 @@ export default function Home() {
                                         </div>
                                     </div>
 
-                                    <Button onClick={handleCheck} className="w-full md:w-auto px-8 py-3 text-base">
+                                    <Button
+                                        onClick={handleCheck}
+                                        className="cursor-pointer w-full md:w-auto px-8 py-3 text-base text-white bg-gradient-to-tr from-blue-600 via-pink-300 to-blue-700 hover:from-pink-500 hover:via-blue-300 hover:to-pink-600 transition-all duration-300"
+                                    >
                                         <Search className="mr-2 h-4 w-4" /> Search Flights
                                     </Button>
+
                                 </TabsContent>
                             </Tabs>
                         </div>
@@ -214,7 +202,6 @@ export default function Home() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {destinations.map((destination, index) => (
                                 <div key={index} className="group rounded-lg overflow-hidden hover:shadow-lg">
-                                    {/* Image with zero top spacing */}
                                     <div className="relative">
                                         <img
                                             src={destination.image}
@@ -232,7 +219,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Special Offers Section */}
                 <div className="container mx-auto px-4 py-16">
                     <div className="mb-8 flex items-center justify-between">
                         <h2 className="text-3xl font-bold  text-white ">Special Offers</h2>
@@ -326,7 +312,7 @@ export default function Home() {
                                     Get exclusive mobile-only deals, track your trips, and manage your bookings on the go.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start ">
-                                    <Button className="flex items-center gap-2 px-6 py-3">
+                                    <Button className="flex items-center gap-2 px-6 py-3 bg-linear-to-tr from-blue-600 via-pink-300 to-blue-700 ">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -345,7 +331,7 @@ export default function Home() {
                                         </svg>
                                         App Store
                                     </Button>
-                                    <Button className="flex items-center gap-2 px-6 py-3">
+                                    <Button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-purple-800 via-pink-300 to-red-500">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -379,6 +365,12 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
+                <FlightModal
+                    open={isDialogOpen}
+                    onClose={setIsDialogOpen}
+                    results={search}
+                />
+
             </main>
             <Footer />
         </div>

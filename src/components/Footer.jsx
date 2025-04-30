@@ -134,10 +134,8 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Divider */}
                 <div className="border-t border-gray-800 my-10"></div>
 
-                {/* Bottom Footer */}
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <p className="text-gray-500 text-sm">
                         &copy; {new Date().getFullYear()} SkyWay Travel. All rights reserved.

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Plane, ChevronDown, X, Menu } from "lucide-react";
+import { Plane, X, Menu } from "lucide-react";
 import { useState } from "react";
 import { useGetSearchData } from "@/HomePage/home/hook/useGetSearchData";
 
@@ -18,16 +18,12 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-6">
                     <Link to={'/home'} className="text-sm font-medium hover:text-primary">Home</Link>
-                    <Link to="#" className="text-sm font-medium hover:text-primary">Flights</Link>
-                    <Link to="#" className="text-sm font-medium hover:text-primary">Dashboard</Link>
+                    <Link to={'/all-flights'} className="text-sm font-medium hover:text-primary">Flights</Link>
+                    <Link to={'/booking'} className="text-sm font-medium hover:text-primary">Dashboard</Link>
                     <Link to="#" className="text-sm font-medium hover:text-primary">Deals</Link>
                     <div className="relative group">
-                        {/* <button className="flex items-center gap-1 text-sm font-medium hover:text-primary">
-                            More <ChevronDown className="h-4 w-4" />
-                        </button> */}
                         <div className="absolute hidden group-hover:block right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                             <Link to="#" className="block px-4 py-2 text-sm hover:bg-muted">About Us</Link>
                             <Link to="#" className="block px-4 py-2 text-sm hover:bg-muted">Contact</Link>
@@ -37,31 +33,25 @@ export default function Navbar() {
                 </nav>
 
                 <div className="hidden md:flex items-center gap-4 mr-6">
-                    {/* <Link to="#" className="text-sm font-medium hover:text-primary">Sign In</Link> */}
                     <Button onClick={logUserOut} className='cursor-pointer'>Logout</Button>
                 </div>
 
-                {/* Mobile Menu Button */}
                 <button className="md:hidden mr-6" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                     {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
             </div>
 
-            {/* Mobile Navigation */}
             {isMenuOpen && (
                 <div className="md:hidden border-t">
                     <div className="container py-4 space-y-4">
-                        <nav className="flex flex-col space-y-4">
-                            <Link to="#" className="text-sm font-medium hover:text-primary">Home</Link>
-                            <Link to="#" className="text-sm font-medium hover:text-primary">Flights</Link>
-                            {/* <Link to="#" className="text-sm font-medium hover:text-primary">Hotels</Link>
-                            <Link to="#" className="text-sm font-medium hover:text-primary">Packages</Link> */}
-                            <Link to="#" className="text-sm font-medium hover:text-primary">Deals</Link>
-                            <Link to="#" className="text-sm font-medium hover:text-primary">Dashboard</Link>
+                        <nav className="flex flex-col space-y-4 ml-6">
+                            <Link to="/home" className="text-sm font-medium hover:text-primary">Home</Link>
+                            <Link to={'/all-flights'} className="text-sm font-medium hover:text-primary">Flights</Link>
+                            <Link to={'#'} className="text-sm font-medium hover:text-primary">Deals</Link>
+                            <Link to={'/booking'} className="text-sm font-medium hover:text-primary">Dashboard</Link>
                         </nav>
                         <div className="flex flex-col space-y-2">
-                            {/* <Link to="#" className="text-sm font-medium hover:text-primary">Sign In</Link> */}
-                            <Button className="w-full">Logout</Button>
+                            <Button onClick={logUserOut} className="w-full cursor-pointer ">Logout</Button>
                         </div>
                     </div>
                 </div>

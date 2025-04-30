@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { AuthForm } from "@/components/AuthForm";
 import { signupFields } from "@/data/formFields";
-import FlightRoutesBackground from "@/Animation/FlightRoutesBackground";
 import { Link } from "react-router-dom";
-import '../userSignup/style/marque.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
 
 export default function UserSignup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,18 +15,22 @@ export default function UserSignup() {
   };
 
   const handleSignup = async (values) => {
+    if (values.password) {
+      values.password = values.password.trim();
+    }
+
     try {
       const apiSignup = await axios.post('http://localhost:4000/api/v1/signup', values);
       const data = apiSignup.data;
       if (data) {
-        toast('Sign up successful')
-        navigate('/login')
+        toast.success('Sign up successful');
+        navigate('/login');
       } else {
-        navigate('/')
+        navigate('/');
       }
     } catch (error) {
       console.log(error.response.data.error);
-      toast(`${error.response.data.error}`)
+      toast.error(`${error.response.data.error}`);
     }
   };
 
