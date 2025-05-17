@@ -20,7 +20,7 @@ export default function UserSignup() {
     }
 
     try {
-      const apiSignup = await axios.post('http://localhost:4000/api/v1/signup', values);
+      const apiSignup = await axios.post('https://request-0xlx.onrender.com/api/v1/signup', values);
       const data = apiSignup.data;
       if (data) {
         toast.success('Sign up successful');

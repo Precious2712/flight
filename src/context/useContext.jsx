@@ -12,7 +12,7 @@ export const SearchProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const user = await axios.get("http://localhost:4000/api/v1/currentuser", {
+            const user = await axios.get("https://request-0xlx.onrender.com/api/v1/currentuser", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -28,7 +28,7 @@ export const SearchProvider = ({ children }) => {
     const userBooking = async () => {
         try {
             if (!userId) return alert('No user id found');
-            const res = await axios.get(`http://localhost:4000/api/v1/getUserBooking/${userId}`, {
+            const res = await axios.get(`https://request-0xlx.onrender.com/v1/getUserBooking/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -43,7 +43,7 @@ export const SearchProvider = ({ children }) => {
 
     const getAllFlightApi = async () => {
         try {
-            const res = await axios.get('http://localhost:4000/api/v2/getAllFlight')
+            const res = await axios.get('https://request-0xlx.onrender.com/api/v2/getAllFlight')
             const db = res.data.data
             console.log('return-flight', db);
             setAllFlight(db, 'db');

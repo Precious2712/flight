@@ -12,7 +12,7 @@ export const useGetSearchData = () => {
     const currentUser = async () => {
         const token = localStorage.getItem('token');
         try {
-            const user = await axios.get("http://localhost:4000/api/v1/currentuser", {
+            const user = await axios.get("https://request-0xlx.onrender.com/api/v1/currentuser", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -42,7 +42,7 @@ export const useGetSearchData = () => {
             const token = localStorage.getItem('token');
             const params = new URLSearchParams(filter).toString();
     
-            const filterSearch = await axios.get(`http://localhost:4000/api/v2/flights?${params}`, {
+            const filterSearch = await axios.get(`https://request-0xlx.onrender.com/api/v2/flights?${params}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
