@@ -19,7 +19,7 @@ export const useGetSearchData = () => {
             });
 
             setEndUser(user.data);
-            // console.log("user-data", user.data);
+            console.log("user-data", user.data);
         } catch (error) {
             console.log(error, 'message');
             const errorMessage = error.response?.data?.message;

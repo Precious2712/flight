@@ -50,8 +50,8 @@ export default function Navbar() {
                             <Link to={'#'} className="text-sm font-medium hover:text-primary">Deals</Link>
                             <Link to={'/booking'} className="text-sm font-medium hover:text-primary">Dashboard</Link>
                         </nav>
-                        <div className="flex flex-col space-y-2">
-                            <Button onClick={logUserOut} className="w-full cursor-pointer ">Logout</Button>
+                        <div className="flex flex-col ml-5 space-y-2">
+                            <Button onClick={logUserOut} className="w-32 cursor-pointer ">Logout</Button>
                         </div>
                     </div>
                 </div>
