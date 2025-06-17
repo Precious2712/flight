@@ -29,6 +29,8 @@ export default function UserSignup() {
         navigate('/');
       }
     } catch (error) {
+      console.log(error, 'message');
+      
       console.log(error.response.data.error);
       toast.error(`${error.response.data.error}`);
     }
@@ -64,9 +66,6 @@ export default function UserSignup() {
             />
           </div>
         </div>
-        {/* <div className="flex-1 relative overflow-hidden">
-          <FlightRoutesBackground theme="light" />
-        </div> */}
       </div>
     </div>
   );

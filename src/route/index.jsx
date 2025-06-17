@@ -1,4 +1,5 @@
 import LoginPage from "@/Auths/LoginPage/LoginPage";
+import ResetPasswordPage from "@/Auths/ResetPassword/ResetPasswordPage";
 import UserSignup from "@/Auths/userSignup/UserSignup";
 import BookingFlightPage from "@/Booking";
 import BookingDetail from "@/DashBoard/details/BookingDetail";
@@ -60,7 +61,10 @@ export const route = createBrowserRouter([
     {
         path: 'deals',
         element: <Tokyo />
+    },
+    {
+        path: "/reset-password/:token",
+        element: <ResetPasswordPage />
     }
-
 ]);
 

@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plane, Calendar, MapPin, ArrowRight, Shield, Hotel, Luggage } from 'lucide-react';
+import { Plane, Calendar, MapPin, ArrowRight, Shield, Hotel, Luggage, Trash2 } from 'lucide-react';
 import { SearchApi } from '@/context/useContext';
-import { Button } from '../ui/button';
+import axios from 'axios';
+import { toast } from "sonner";
 
 const BookingsList = () => {
   const navigate = useNavigate();
-  const {booking, name} = useContext(SearchApi);
+  const { booking, name } = useContext(SearchApi);
+  const token = localStorage.getItem('token');
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       weekday: 'short',
@@ -15,6 +17,23 @@ const BookingsList = () => {
       year: 'numeric'
     });
   };
+
+  async function handleDeleteById(id) {
+    alert(id);
+    try {
+      const remove = await axios.delete(`https://request-0xlx.onrender.com/api/v1/deleteFlight/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (remove) {
+        toast.success(`${remove.data.message}`)
+      }
+    } catch (error) {
+      console.log(error, 'message');
+      toast.error(`${error.message}`)
+    }
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -29,9 +48,7 @@ const BookingsList = () => {
         {booking?.data.map((booking) => (
           <div
             key={booking._id}
-            className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer"
-            onClick={() => navigate(`/booking/${booking._id}`)}
-          >
+            className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
@@ -43,7 +60,7 @@ const BookingsList = () => {
                     <span className="text-sm text-gray-500">Booking ID: {booking._id.slice(-11)}</span>
                   </div>
                 </div>
-                <div className="flex items-center text-blue-700">
+                <div onClick={() => navigate(`/booking/${booking._id}`)} className="flex items-center text-blue-700">
                   View Details
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </div>
@@ -99,7 +116,10 @@ const BookingsList = () => {
                     Travel Insurance
                   </span>
                 )}
-                <Button>remove</Button>
+                <span onClick={() => handleDeleteById(booking._id)} className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-red-700 flex items-center cursor-pointer">
+                  <Trash2 className="h-4 w-4 mr-1" />
+                  Remove
+                </span>
               </div>
             </div>
           </div>

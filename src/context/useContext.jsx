@@ -28,7 +28,7 @@ export const SearchProvider = ({ children }) => {
     const userBooking = async () => {
         try {
             if (!userId) return alert('No user id found');
-            const res = await axios.get(`https://request-0xlx.onrender.com/v1/getUserBooking/${userId}`, {
+            const res = await axios.get(`https://request-0xlx.onrender.com/api/v1/getUserBooking/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

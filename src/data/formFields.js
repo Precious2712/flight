@@ -36,30 +36,7 @@ export const signupFields = [
     label: "Password",
     type: "password",
     placeholder: "••••••••",
-    validation: {
-      required: "Password is required",
-      pattern: {
-        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        message: `Password must be at least 8 characters
-        - 1 uppercase letter
-        - 1 lowercase letter
-        - 1 number
-        - 1 special character (@$!%*?&)
-        `,
-      },
-    },
   },
-  // {
-  //   name: "confirmPassword",
-  //   label: "Confirm Password",
-  //   type: "password",
-  //   placeholder: "••••••••",
-  //   validation: {
-  //     required: "Please confirm your password",
-  //     validate: (value, formValues) => 
-  //       value === formValues.password || "Passwords don't match",
-  //   },
-  // },
 ];
 
 export const loginFields = [
